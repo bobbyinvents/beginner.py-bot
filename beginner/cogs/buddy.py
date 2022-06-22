@@ -189,11 +189,12 @@ class LookForBuddy(nextcord.ui.Modal):
         )
         self.add_item(self.current_projects)
 
-        tz_options = [
-            nextcord.SelectOption(label=f"UTC{'+' if i>=0 else ''}{i}")
-            for i in range(-11, 12)
-        ]
-        self.timezone = nextcord.ui.Select(placeholder="Timezone", options=tz_options)
+        self.timezone = nextcord.ui.TextInput(
+            label="Timezone",
+            style=nextcord.TextInputStyle.short,
+            placeholder="UTC+02 (Berlin)",
+            max_length=35,
+        )
         self.add_item(self.timezone)
 
         # The number of choices in select options is limited to a max of 25.
@@ -235,7 +236,7 @@ class LookForBuddy(nextcord.ui.Modal):
             value=f"```{self.current_projects.value}```",
             inline=False,
         )
-        embed.add_field(name="Timezone:", value=self.timezone.values[0], inline=True)
+        embed.add_field(name="Timezone:", value=self.timezone.value, inline=True)
 
         if self.age_range.values:
             embed.add_field(
